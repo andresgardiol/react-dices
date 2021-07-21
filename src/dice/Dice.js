@@ -2,6 +2,8 @@ import {useEffect, useState} from "react";
 import {DiceFace} from "./DiceFace";
 import {getItem} from "../utils/repository";
 
+// TODO: Poder cargar un dado desde la url
+// ?dices=1&dice_1=Besar,1,2,3,4,5,6&dice_1_header=Accion
 
 export function Dice({id, throws}) {
     let [value, setValue] = useState(null);
