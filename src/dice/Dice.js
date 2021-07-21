@@ -3,18 +3,17 @@ import {DiceFace} from "./DiceFace";
 
 export function Dice({throws}) {
     let [value, setValue] = useState(null);
-    let [diceName, setDiceName] = useState("Name");
     let [facesValues, updateFacesValues] = useState([1, 2, 3, 4, 5, 6]);
 
     useEffect(() => {
         handleThrow();
     }, [throws]);
 
-    function getRandomValue(min, max) {
-        return Math.floor(Math.random() * (max - min + 1) + min);
-    }
 
     const handleThrow = () => {
+        function getRandomValue(min, max) {
+            return Math.floor(Math.random() * (max - min + 1) + min);
+        }
         let random = getRandomValue(0, facesValues.length - 1);
         setValue(facesValues[random]);
     }
@@ -32,17 +31,14 @@ export function Dice({throws}) {
     }
 
     function handleRemoveFace() {
-        if (facesValues.length > 1) {
+        if (facesValues.length > 2) {
             updateFacesValues(old => [...old.filter(value => [...old].pop() !== value)]);
         }
     }
 
     return (
         <div className="Dice">
-            <input value={diceName} onChange={(e) => setDiceName(e.target.value)}/>
-            <button onClick={handleAddFace}>+ Agregar cara</button>
-            <button onClick={handleRemoveFace}>- Remover cara</button>
-
+            <DiceHeader onClickAddFace={handleAddFace} onClickRemoveFace={handleRemoveFace}/>
             <h1>
                 {value}
             </h1>
@@ -54,6 +50,17 @@ export function Dice({throws}) {
                               value={value}/>)}
 
             <button onClick={handleThrow}>Tirar</button>
+        </div>
+    );
+}
+
+function DiceHeader({onClickAddFace, onClickRemoveFace}) {
+    let [diceName, setDiceName] = useState("Nombre");
+    return(
+        <div>
+            <input value={diceName} onChange={(e) => setDiceName(e.target.value)}/>
+            <button onClick={onClickAddFace}>+ Agregar cara</button>
+            <button onClick={onClickRemoveFace}>- Remover cara</button>
         </div>
     );
 }
