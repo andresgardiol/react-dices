@@ -1,6 +1,7 @@
 import {useEffect, useState} from "react";
 import {DiceFace} from "./DiceFace";
 import {getItem} from "../utils/repository";
+import {setQueryParam, useQueryParams} from "../App";
 
 // TODO: Poder cargar un dado desde la url
 // ?dices=1&dice_1=Besar,1,2,3,4,5,6&dice_1_header=Accion
@@ -8,14 +9,17 @@ import {getItem} from "../utils/repository";
 export function Dice({id, throws}) {
     let [value, setValue] = useState(null);
     let [facesValues, updateFacesValues] = useState(getItem(`dice_${id}`,[1, 2, 3, 4, 5, 6]));
+    let queryParams = useQueryParams();
 
     useEffect(() => {
         handleThrow();
     }, [throws]);
 
     useEffect(() => {
-        let item = getItem(`dice_${id}`,[1, 2, 3, 4, 5, 6]);
+        let key = `dice_${id}`;
+        let item = queryParams[key] ? queryParams[key] : getItem(key,[1, 2, 3, 4, 5, 6]);
         updateFacesValues(item);
+        setQueryParam(key, JSON.stringify(item));
     }, []);
 
     useEffect(() => {

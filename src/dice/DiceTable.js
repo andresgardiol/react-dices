@@ -2,18 +2,22 @@ import {useEffect, useState} from "react";
 import {Outline} from "../utils/Outline";
 import {Dice} from "./Dice";
 import {getItem} from "../utils/repository";
+import {setQueryParam, useQueryParams} from "../App";
 
 export function DiceTable() {
     let [dices, setDiceNumber] = useState([1]);
     let [throwTrigger, throwAll] = useState(false);
+    let queryParams = useQueryParams();
 
     useEffect(() => {
-        let item = getItem('dices', [1]);
+        let item = queryParams['dices'] ? queryParams['dices'] : getItem('dices', [1]);
         setDiceNumber(item);
+        setQueryParam('dices', JSON.stringify(dices));
     }, []);
 
     useEffect(() => {
         window.localStorage.setItem('dices', JSON.stringify(dices));
+        setQueryParam('dices', JSON.stringify(dices));
     }, [dices]);
 
     const handleAdd = () => {
