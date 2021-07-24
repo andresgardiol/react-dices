@@ -67,8 +67,7 @@ export const getQueryParamsObject = (searchString) => {
 }
 
 export const setQueryParam = (key, value) => {
-    let prevSearch = history.location.search? history.location.search + "&" : '?';
-    history.push({search: `${prevSearch}${encodeURIComponent(key)}=${encodeURIComponent(value)}`})
+    history.push({search: `?${encodeURIComponent(key)}=${encodeURIComponent(value)}`, pathname: ''})
 }
 
 

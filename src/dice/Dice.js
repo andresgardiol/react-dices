@@ -8,7 +8,7 @@ import {setQueryParam, useQueryParams} from "../App";
 
 export function Dice({id, throws}) {
     let [value, setValue] = useState(null);
-    let [facesValues, updateFacesValues] = useState(getItem(`dice_${id}`,[1, 2, 3, 4, 5, 6]));
+    let [facesValues, updateFacesValues] = useState(getItem(`dice_${id}`, [1, 2, 3, 4, 5, 6]));
     let queryParams = useQueryParams();
 
     useEffect(() => {
@@ -17,9 +17,8 @@ export function Dice({id, throws}) {
 
     useEffect(() => {
         let key = `dice_${id}`;
-        let item = queryParams[key] ? queryParams[key] : getItem(key,[1, 2, 3, 4, 5, 6]);
+        let item = queryParams[key] ? queryParams[key] : getItem(key, [1, 2, 3, 4, 5, 6]);
         updateFacesValues(item);
-        setQueryParam(key, JSON.stringify(item));
     }, []);
 
     useEffect(() => {
@@ -55,11 +54,9 @@ export function Dice({id, throws}) {
     }
 
     return (
-        <div className="Dice">
+        <section className="Dice">
             <DiceHeader id={id} onClickAddFace={handleAddFace} onClickRemoveFace={handleRemoveFace}/>
-            <h1>
-                {value}
-            </h1>
+            <h1><strong>{value}</strong></h1>
             Lados:
             {facesValues
                 .map((value, index) =>
@@ -67,8 +64,8 @@ export function Dice({id, throws}) {
                               onChangeValue={handleFaceChangeValue(index)}
                               value={value}/>)}
 
-            <button onClick={handleThrow}>Tirar</button>
-        </div>
+            <button aria-label="Tirar dado" onClick={handleThrow}>Tirar</button>
+        </section>
     );
 }
 
@@ -89,10 +86,10 @@ function DiceHeader({id, onClickAddFace, onClickRemoveFace}) {
 
 
     return (
-        <div>
+        <header>
             <input value={diceName} onChange={(e) => setDiceName(e.target.value)}/>
             <button onClick={onClickAddFace}>+ Agregar cara</button>
             <button onClick={onClickRemoveFace}>- Remover cara</button>
-        </div>
+        </header>
     );
 }

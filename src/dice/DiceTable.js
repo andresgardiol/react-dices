@@ -34,17 +34,21 @@ export function DiceTable() {
         throwAll(prev => !prev);
     }
     return (
-        <div>
-            <h2>Elige cuántos dados tirar</h2>
-            <button onClick={handleAdd}>+ Agregar</button>
-            <button onClick={handleRemove}>- Remover</button>
-            <button onClick={handleThrowAll}>Tirar todos</button>
-            <h2>{dices.length} dado{dices.length > 1 ? 's' : null} para tirar</h2>
-            {dices.map((value) => {
-                return (
-                    <Dice id={value.toString()} key={value.toString()} throws={throwTrigger}/>
-                )
-            })}
-        </div>
+        <>
+            <header>
+                <h1>Elige cuántos dados tirar</h1>
+                <button aria-label="Agregar dado" onClick={handleAdd}>+ Agregar</button>
+                <button aria-label="Remover dado" onClick={handleRemove}>- Remover</button>
+                <button aria-label="Tirar todos los dados" onClick={handleThrowAll}>Tirar todos</button>
+                <h2>{`${dices.length} dado${dices.length > 1 ? 's' : ''} para tirar` }</h2>
+            </header>
+            <main>
+                {dices.map((value) => {
+                    return (
+                        <Dice id={value.toString()} key={value.toString()} throws={throwTrigger}/>
+                    )
+                })}
+            </main>
+        </>
     );
 }
