@@ -1,10 +1,8 @@
 import {useEffect, useState} from "react";
-import {Outline} from "../utils/Outline";
 import {Dice} from "./Dice";
 import {getItem} from "../utils/repository";
 import {setQueryParam, useQueryParams} from "../App";
 import {Badge, Button, ButtonGroup, Col, Row} from "react-bootstrap";
-import {AiOutlineAppstoreAdd} from "react-icons/all";
 
 export function DiceTable() {
     let [dices, setDiceNumber] = useState([1]);
