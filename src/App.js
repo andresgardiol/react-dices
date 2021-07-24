@@ -7,9 +7,6 @@ import {Container} from "react-bootstrap";
 export const history = createBrowserHistory();
 
 function App() {
-
-    let queryParams = useQueryParams();
-
     return (
         <Container fluid="md" className="App">
             <DiceTable/>
@@ -20,12 +17,10 @@ function App() {
 
 export const useQueryParams = () => {
     const [queryParams, setQueryParams] = useState(getQueryParamsObject(history.location.search));
-    console.log("QueryParams:", queryParams);
 
     useEffect(() => {
         function listener({location}) {
             setQueryParams(getQueryParamsObject(location.search));
-            console.log("QueryParams:", queryParams);
         }
 
         let unlisten = history.listen(listener);

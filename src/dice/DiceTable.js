@@ -4,6 +4,7 @@ import {Dice} from "./Dice";
 import {getItem} from "../utils/repository";
 import {setQueryParam, useQueryParams} from "../App";
 import {Badge, Button, ButtonGroup, Col, Row} from "react-bootstrap";
+import {AiOutlineAppstoreAdd} from "react-icons/all";
 
 export function DiceTable() {
     let [dices, setDiceNumber] = useState([1]);
@@ -38,14 +39,14 @@ export function DiceTable() {
         <>
             <header>
                 <Row className="my-3">
-                    <Col xs={12}><h1>Elige cuántos dados tirar</h1></Col>
+                    <Col xs={12}><h1 className="text-white">Elige cuántos dados tirar</h1></Col>
                     <Col xs={12}>
                         <ButtonGroup className="mx-1">
                             <Button variant="secondary" aria-label="Agregar dado" onClick={handleAdd}>+ Agregar</Button>
                             <Button variant="secondary" aria-label="Remover dado" onClick={handleRemove}>-
                                 Remover</Button>
                         </ButtonGroup>
-                        <Button variant="primary" aria-label="Tirar todos los dados" onClick={handleThrowAll}>
+                        <Button className="my-2" variant="primary" aria-label="Tirar todos los dados" onClick={handleThrowAll}>
                             Tirar todos <Badge bg="info">{dices.length}</Badge>
                         </Button>
                     </Col>

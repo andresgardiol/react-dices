@@ -1,11 +1,12 @@
 import {useEffect, useState} from "react";
-import {DiceFace} from "./DiceFace";
 import {getItem} from "../utils/repository";
-import {setQueryParam, useQueryParams} from "../App";
-import {Badge, Button, ButtonGroup, Card, Col, Collapse, FormControl, Row} from "react-bootstrap";
-
-// TODO: Poder cargar un dado desde la url
-// ?dices=1&dice_1=Besar,1,2,3,4,5,6&dice_1_header=Accion
+import {useQueryParams} from "../App";
+import {Button, Card, Col, Collapse, Row} from "react-bootstrap";
+import {BsPencil} from "react-icons/bs";
+import {MdDone} from "react-icons/all";
+import DiceFaces from "./DiceFaces";
+import {Conditional} from "./Conditional";
+import {DiceHeader} from "./DiceHeader";
 
 export function Dice({id, throws}) {
     let [value, setValue] = useState(null);
@@ -29,10 +30,6 @@ export function Dice({id, throws}) {
 
 
     const handleThrow = () => {
-        function getRandomValue(min, max) {
-            return Math.floor(Math.random() * (max - min + 1) + min);
-        }
-
         let random = getRandomValue(0, facesValues.length - 1);
         setValue(facesValues[random]);
     }
@@ -70,21 +67,28 @@ export function Dice({id, throws}) {
                             <Card.Title><h1><strong>{value}</strong></h1></Card.Title>
                         </Col>
                         <Collapse in={open}>
-                            <Col xs={12}>
-                                {facesValues
-                                    .map((value, index) =>
-                                        <DiceFace key={index}
-                                                  onChangeValue={handleFaceChangeValue(index)}
-                                                  value={value}/>)}
-                            </Col>
+                            <div>
+                                <DiceFaces facesValues={facesValues} handleAddFace={handleAddFace}
+                                           handleRemoveFace={handleRemoveFace}
+                                           handleFaceChangeValue={handleFaceChangeValue}/>
+                            </div>
                         </Collapse>
-
-                        <Col xs={6} className="mt-2">
-                            <Button variant="light" onClick={() => setOpen(!open)}>Editar</Button>
-                        </Col>
-                        <Col xs={6} className="mt-2">
-                            <Button variant="primary" aria-label="Tirar dado" onClick={handleThrow}>Tirar</Button>
-                        </Col>
+                        <Card.Footer>
+                            <Row>
+                                <Col xs={5} className="mt-2">
+                                    <Button variant={open ? "success" : "dark"} onClick={() => setOpen(!open)}>
+                                        <Conditional condition={open}
+                                                     ifFalse={<><BsPencil/> Editar</>}
+                                                     ifTrue={<><MdDone/> Listo</>}
+                                        />
+                                    </Button>
+                                </Col>
+                                <Col xs={7} className="mt-2">
+                                    <Button className="w-100" variant="primary" aria-label="Tirar dado"
+                                            onClick={handleThrow}>Tirar</Button>
+                                </Col>
+                            </Row>
+                        </Card.Footer>
                     </Row>
                 </section>
             </Card>
@@ -92,36 +96,6 @@ export function Dice({id, throws}) {
     );
 }
 
-function DiceHeader({id, onClickAddFace, onClickRemoveFace}) {
-    let [diceName, setDiceName] = useState("Nombre");
-
-    useEffect(() => {
-        let item = window.localStorage.getItem(`dice_${id}_header`);
-        if (!item) {
-            item = 'Nombre';
-        }
-        setDiceName(item);
-    }, []);
-
-    useEffect(() => {
-        window.localStorage.setItem(`dice_${id}_header`, diceName);
-    }, [diceName]);
-
-
-    return (
-        <header>
-            <Row>
-                <Col xs={12} className="mb-2">
-                    <FormControl value={diceName} onChange={(e) => setDiceName(e.target.value)}/>
-                </Col>
-
-                <Col xs={12}>
-                    <ButtonGroup>
-                        <Button variant="secondary" onClick={onClickAddFace}>+ Lado</Button>
-                        <Button variant="secondary" onClick={onClickRemoveFace}>- Lado</Button>
-                    </ButtonGroup>
-                </Col>
-            </Row>
-        </header>
-    );
+export const getRandomValue = (min, max) => {
+    return Math.floor(Math.random() * (max - min + 1) + min);
 }
