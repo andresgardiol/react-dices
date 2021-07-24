@@ -3,6 +3,7 @@ import {Outline} from "../utils/Outline";
 import {Dice} from "./Dice";
 import {getItem} from "../utils/repository";
 import {setQueryParam, useQueryParams} from "../App";
+import {Badge, Button, ButtonGroup, Col, Row} from "react-bootstrap";
 
 export function DiceTable() {
     let [dices, setDiceNumber] = useState([1]);
@@ -36,18 +37,28 @@ export function DiceTable() {
     return (
         <>
             <header>
-                <h1>Elige cuántos dados tirar</h1>
-                <button aria-label="Agregar dado" onClick={handleAdd}>+ Agregar</button>
-                <button aria-label="Remover dado" onClick={handleRemove}>- Remover</button>
-                <button aria-label="Tirar todos los dados" onClick={handleThrowAll}>Tirar todos</button>
-                <h2>{`${dices.length} dado${dices.length > 1 ? 's' : ''} para tirar` }</h2>
+                <Row className="my-3">
+                    <Col xs={12}><h1>Elige cuántos dados tirar</h1></Col>
+                    <Col xs={12}>
+                        <ButtonGroup className="mx-1">
+                            <Button variant="secondary" aria-label="Agregar dado" onClick={handleAdd}>+ Agregar</Button>
+                            <Button variant="secondary" aria-label="Remover dado" onClick={handleRemove}>-
+                                Remover</Button>
+                        </ButtonGroup>
+                        <Button variant="primary" aria-label="Tirar todos los dados" onClick={handleThrowAll}>
+                            Tirar todos <Badge bg="info">{dices.length}</Badge>
+                        </Button>
+                    </Col>
+                </Row>
             </header>
             <main>
-                {dices.map((value) => {
-                    return (
-                        <Dice id={value.toString()} key={value.toString()} throws={throwTrigger}/>
-                    )
-                })}
+                <Row>
+                    {dices.map((value) => {
+                        return (
+                            <Dice id={value.toString()} key={value.toString()} throws={throwTrigger}/>
+                        )
+                    })}
+                </Row>
             </main>
         </>
     );

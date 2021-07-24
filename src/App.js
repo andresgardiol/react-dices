@@ -2,6 +2,7 @@ import './App.css';
 import {DiceTable} from "./dice/DiceTable";
 import {useEffect, useState} from "react";
 import {createBrowserHistory} from 'history';
+import {Container} from "react-bootstrap";
 
 export const history = createBrowserHistory();
 
@@ -10,9 +11,9 @@ function App() {
     let queryParams = useQueryParams();
 
     return (
-        <div className="App">
+        <Container fluid="md" className="App">
             <DiceTable/>
-        </div>
+        </Container>
     );
 }
 
