@@ -1,0 +1,14 @@
+{
+  "targets": {
+    "dice-react-app": {
+      "hosting": {
+        "apps": [
+          "dice-react-app"
+        ]
+      }
+    }
+  },
+  "projects": {
+    "default": "dice-react-app"
+  }
+}
