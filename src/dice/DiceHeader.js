@@ -1,7 +1,6 @@
 import {useEffect, useState} from "react";
 import {Col, FormControl, InputGroup, Row} from "react-bootstrap";
 import {
-    GiDiceSixFacesOne,
     GiInvertedDice1,
     GiInvertedDice2,
     GiInvertedDice3,
@@ -20,16 +19,15 @@ export function DiceHeader({id}) {
         <GiInvertedDice5/>,
         <GiInvertedDice6/>
     ]
-    let diceIcon = diceIcons[getRandomValue(0,5)];
+    let [diceIcon] = useState(diceIcons[getRandomValue(0, 5)]);
 
     useEffect(() => {
-        diceIcon = diceIcons[getRandomValue(0,5)];
         let item = window.localStorage.getItem(`dice_${id}_header`);
         if (!item) {
             item = 'Nombre';
         }
         setDiceName(item);
-    }, []);
+    }, [id]);
 
     useEffect(() => {
         window.localStorage.setItem(`dice_${id}_header`, diceName);
@@ -41,8 +39,9 @@ export function DiceHeader({id}) {
             <Row>
                 <Col xs={12} className="mb-2">
                     <InputGroup>
-                    <InputGroup.Text id="dice-name">{diceIcon}</InputGroup.Text>
-                        <FormControl value={diceName} onChange={(e) => setDiceName(e.target.value)} aria-describedby="dice-name"/>
+                        <InputGroup.Text id="dice-name">{diceIcon}</InputGroup.Text>
+                        <FormControl value={diceName} onChange={(e) => setDiceName(e.target.value)}
+                                     aria-describedby="dice-name"/>
                     </InputGroup>
                 </Col>
             </Row>
